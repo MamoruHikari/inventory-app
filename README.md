@@ -27,7 +27,7 @@ This project was developed as part of an internship program.
   * Modern design using [shadcn/ui](https://ui.shadcn.com/)
   * Dialog, form, input, checkbox, and button components integrated
   * Responsive inventory and item detail pages
-  * 🌙 **Day/Night Mode** → Automatically switches with OS theme (system dark/light mode support)
+  * Day/Night Mode → Automatically switches with OS theme (system dark/light mode support)
 
 ## 🛠️ Tech Stack
 
