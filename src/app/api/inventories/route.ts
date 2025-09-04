@@ -39,7 +39,7 @@ export async function GET() {
     console.error('Error fetching inventories:', error)
     const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
     return NextResponse.json(
-      { error: 'Failed to fetch inventories' },
+      { error: `Failed to fetch inventories: ${errorMessage}` },
       { status: 500 }
     )
   }
