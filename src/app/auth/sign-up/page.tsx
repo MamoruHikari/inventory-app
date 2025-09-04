@@ -8,8 +8,9 @@ interface SignUpPageProps {
   }>;
 }
 
-export default function Page({ searchParams }: SignUpPageProps) {
-  const redirectTo = searchParams.redirectTo || '/';
+export default async function Page({ searchParams }: SignUpPageProps) {
+  const params = await searchParams;
+  const redirectTo = params.redirectTo || '/';
 
   return (
     <div className="flex min-h-svh w-full flex-col p-6 md:p-10">
