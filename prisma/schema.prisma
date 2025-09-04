@@ -1,0 +1,146 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  avatar    String?
+  role      String   @default("user")
+  createdAt DateTime @default(now())
+  
+  inventories Inventory[]
+  items       Item[]
+  comments    Comment[]
+  likes       Like[]
+}
+
+model Category {
+  id   String @id @default(uuid())
+  name String @unique
+  
+  inventories Inventory[]
+  
+  @@index([name])
+}
+
+model Inventory {
+  id          String   @id @default(uuid())
+  title       String
+  description String?
+  imageUrl    String?
+  tags        String[]
+  isPublic    Boolean  @default(true)
+  creatorId   String
+  categoryId  String?
+  
+  customIdPrefix String  @default("ITEM")
+  customIdFormat String  @default("{prefix}-{counter}")
+  counterStart   Int     @default(1)
+  
+  stringField1Name    String?
+  stringField1Active  Boolean @default(false)
+  stringField1Order   Int     @default(1)
+  stringField2Name    String?
+  stringField2Active  Boolean @default(false)
+  stringField2Order   Int     @default(2)
+  stringField3Name    String?
+  stringField3Active  Boolean @default(false)
+  stringField3Order   Int     @default(3)
+  
+  numberField1Name    String?
+  numberField1Active  Boolean @default(false)
+  numberField1Order   Int     @default(4)
+  numberField2Name    String?
+  numberField2Active  Boolean @default(false)
+  numberField2Order   Int     @default(5)
+  numberField3Name    String?
+  numberField3Active  Boolean @default(false)
+  numberField3Order   Int     @default(6)
+  
+  boolField1Name      String?
+  boolField1Active    Boolean @default(false)
+  boolField1Order     Int     @default(7)
+  boolField2Name      String?
+  boolField2Active    Boolean @default(false)
+  boolField2Order     Int     @default(8)
+  boolField3Name      String?
+  boolField3Active    Boolean @default(false)
+  boolField3Order     Int     @default(9)
+  
+  version   Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  creator  User      @relation(fields: [creatorId], references: [id])
+  category Category? @relation(fields: [categoryId], references: [id])
+  items    Item[]
+  comments Comment[]
+  
+  @@index([creatorId])
+  @@index([isPublic])
+  @@index([categoryId])
+}
+
+model Item {
+  id          String   @id @default(uuid())
+  inventoryId String
+  customId    String
+  name        String
+  description String?
+  imageUrl    String?
+  createdById String
+  
+  stringValue1  String?
+  stringValue2  String?
+  stringValue3  String?
+  numberValue1  Float?
+  numberValue2  Float?
+  numberValue3  Float?
+  boolValue1    Boolean?
+  boolValue2    Boolean?
+  boolValue3    Boolean?
+  
+  version   Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  inventory Inventory @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+  createdBy User      @relation(fields: [createdById], references: [id])
+  likes     Like[]
+  
+  @@unique([inventoryId, customId])
+  @@index([inventoryId])
+}
+
+model Comment {
+  id          String   @id @default(uuid())
+  inventoryId String
+  userId      String
+  text        String
+  createdAt   DateTime @default(now())
+  
+  inventory Inventory @relation(fields: [inventoryId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id])
+  
+  @@index([inventoryId])
+  @@index([createdAt])
+}
+
+model Like {
+  id     String @id @default(uuid())
+  userId String
+  itemId String
+  
+  user User @relation(fields: [userId], references: [id])
+  item Item @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  
+  @@unique([userId, itemId])
+}
