@@ -3,8 +3,6 @@
 A full-stack inventory management web application built with **Next.js 15**, **Prisma**, **Supabase**, **TypeScript**, and **shadcn/ui**.
 This project was developed as part of an internship program.
 
-## Live Demo
-
 You can try the app here: [Inventory App Live](https://inventory-app-7p7n.onrender.com)
 
 ## ✨ Features Implemented
