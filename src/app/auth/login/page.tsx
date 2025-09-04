@@ -1,10 +1,15 @@
 import { LoginForm } from "@/components/login-form";
 import { BackButton } from "@/components/back-button";
 
+interface SearchParams {
+  redirectTo?: string;
+  from?: string;
+}
+
 export default function Page({
   searchParams,
 }: {
-  searchParams?: { redirectTo?: string; from?: string };
+  searchParams?: SearchParams;
 }) {
   const redirectTo = searchParams?.redirectTo || "/";
 
