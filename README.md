@@ -8,7 +8,7 @@ This project was developed as part of an internship program.
 * **Authentication** (Supabase)
 * **Inventory Management**
 
-  * Create inventories with configurable custom fields (string, number, boolean)
+  * Create and edit inventories with configurable custom fields (string, number, boolean)
   * Public/private inventories with access control
   * View inventory details
 * **Item Management**
@@ -28,15 +28,6 @@ This project was developed as part of an internship program.
   * Dialog, form, input, checkbox, and button components integrated
   * Responsive inventory and item detail pages
   * 🌙 **Day/Night Mode** → Automatically switches with OS theme (system dark/light mode support)
-
-## 🚧 Work in Progress
-
-* **Item Detail Page** (`/inventory/[id]/item/[itemId]`)
-
-  * Frontend UI for viewing, editing, and deleting items is created
-  * Backend API routes (`GET`, `PUT`, `DELETE`) for items need to be finalized
-* **Comments/Discussion System** (planned but not implemented)
-* **Bulk operations, search/filtering, and CSV import/export** (planned but not implemented)
 
 ## 🛠️ Tech Stack
 
