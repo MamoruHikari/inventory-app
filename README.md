@@ -37,4 +37,3 @@ This project was developed as part of an internship program.
 * [Supabase (Auth + PostgreSQL)](https://supabase.com/)
 * [shadcn/ui](https://ui.shadcn.com/) for UI components + theme handling
 * [Lucide React](https://lucide.dev/) for icons
-* **System Theme Detection** for automatic dark/light mode switching
