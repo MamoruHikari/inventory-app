@@ -2,15 +2,16 @@ import { LoginForm } from "@/components/login-form";
 import { BackButton } from "@/components/back-button";
 
 interface LoginPageProps {
-  searchParams: {
+  searchParams: Promise<{
     redirectTo?: string;
     from?: string;
-  };
+  }>;
 }
 
-export default function Page({ searchParams }: LoginPageProps) {
-  const redirectTo = searchParams.redirectTo || '/';
-
+export default async function Page({ searchParams }: LoginPageProps) {
+  const params = await searchParams;
+  const redirectTo = params.redirectTo || '/';
+  
   return (
     <div className="flex min-h-svh w-full flex-col p-6 md:p-10">
       <div className="absolute top-6 left-6 md:top-10 md:left-10">
