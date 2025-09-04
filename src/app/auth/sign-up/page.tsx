@@ -5,7 +5,7 @@ interface SignUpPageProps {
   searchParams: Promise<{
     redirectTo?: string;
     from?: string;
-  };
+  }>;
 }
 
 export default function Page({ searchParams }: SignUpPageProps) {
