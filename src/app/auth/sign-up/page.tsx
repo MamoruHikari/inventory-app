@@ -2,7 +2,7 @@ import { SignUpForm } from "@/components/sign-up-form";
 import { BackButton } from "@/components/back-button";
 
 interface SignUpPageProps {
-  searchParams: {
+  searchParams: Promise<{
     redirectTo?: string;
     from?: string;
   };
