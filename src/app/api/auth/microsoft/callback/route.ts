@@ -7,6 +7,8 @@ export async function GET(request: NextRequest) {
     const state = searchParams.get('state')
     const error = searchParams.get('error')
 
+    console.log('Microsoft callback - Code exists:', !!code, 'Error:', error)
+
     if (error) {
       console.error('Microsoft OAuth error:', error)
       const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://inventory-app-7p7n.onrender.com'
@@ -38,7 +40,7 @@ export async function GET(request: NextRequest) {
 
     if (!tokenResponse.ok) {
       const errorText = await tokenResponse.text()
-      console.error('Token exchange failed:', errorText)
+      console.error('Microsoft token exchange failed:', tokenResponse.status, errorText)
       const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://inventory-app-7p7n.onrender.com'
       return NextResponse.redirect(`${baseUrl}/profile?error=microsoft_error&details=token_exchange_failed`)
     }
@@ -51,9 +53,13 @@ export async function GET(request: NextRequest) {
       `${process.env.NEXT_PUBLIC_SITE_URL || 'https://inventory-app-7p7n.onrender.com'}${returnTo}?microsoft=connected`
     )
 
+    const isProduction = request.url.includes('https://')
+    
+    console.log('Setting Microsoft cookies with secure:', isProduction)
+
     response.cookies.set('ms_access_token', tokens.access_token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: isProduction,
       sameSite: 'lax',
       maxAge: 60 * 60
     })
@@ -61,11 +67,13 @@ export async function GET(request: NextRequest) {
     if (tokens.refresh_token) {
       response.cookies.set('ms_refresh_token', tokens.refresh_token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
+        secure: isProduction,
         sameSite: 'lax',
         maxAge: 60 * 60 * 24 * 30
       })
     }
+
+    console.log('Microsoft cookies set successfully')
 
     return response
   } catch (error) {
