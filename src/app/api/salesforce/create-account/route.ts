@@ -14,24 +14,59 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 })
     }
 
-    console.log('User authenticated:', user.email)
-
-    const accessToken = request.cookies.get('salesforce_access_token')?.value
+    let accessToken = request.cookies.get('salesforce_access_token')?.value
+    const refreshToken = request.cookies.get('salesforce_refresh_token')?.value
     const instanceUrl = request.cookies.get('salesforce_instance_url')?.value
 
     if (!accessToken || !instanceUrl) {
       console.log('No Salesforce connection found')
       return NextResponse.json({ 
-        error: 'No Salesforce connection found. Please connect to Salesforce first.' 
+        error: 'No Salesforce connection found. Please reconnect to Salesforce first.',
+        reconnectRequired: true
       }, { status: 401 })
     }
 
-    console.log('Salesforce connection verified')
-    console.log('Access token found:', accessToken.substring(0, 20) + '...')
-    console.log('Instance URL:', instanceUrl)
+    console.log('Salesforce connection found')
+
+    if (!accessToken && refreshToken) {
+      console.log('Refreshing Salesforce token...')
+      
+      try {
+        const tokenResponse = await fetch(`${process.env.SALESFORCE_LOGIN_URL}/services/oauth2/token`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: new URLSearchParams({
+            grant_type: 'refresh_token',
+            refresh_token: refreshToken,
+            client_id: process.env.SALESFORCE_CLIENT_ID!,
+            client_secret: process.env.SALESFORCE_CLIENT_SECRET!,
+          }),
+        })
+
+        if (tokenResponse.ok) {
+          const tokens = await tokenResponse.json()
+          accessToken = tokens.access_token
+          console.log('Token refreshed successfully')
+        } else {
+          console.log('Token refresh failed')
+          return NextResponse.json({
+            error: 'Salesforce session expired. Please reconnect to Salesforce.',
+            reconnectRequired: true
+          }, { status: 401 })
+        }
+      } catch (refreshError) {
+        console.error('Token refresh error:', refreshError)
+        return NextResponse.json({
+          error: 'Salesforce session expired. Please reconnect to Salesforce.',
+          reconnectRequired: true
+        }, { status: 401 })
+      }
+    }
 
     const body = await request.json()
-    console.log('📋 Received form data:', JSON.stringify(body, null, 2))
+    console.log('Received form data:', JSON.stringify(body, null, 2))
 
     const { 
       companyName, 
@@ -53,7 +88,7 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
-    console.log('🏢 Creating Salesforce Account...')
+    console.log('Creating Salesforce Account...')
 
     const accountData = {
       Name: companyName,
@@ -80,7 +115,7 @@ export async function POST(request: NextRequest) {
     const contactId = await salesforceClient.createContact(contactData)
     console.log('Contact created with ID:', contactId)
 
-    console.log('Salesforce integration completed successfully!')
+    console.log('🎉 Salesforce integration completed successfully!')
 
     return NextResponse.json({
       success: true,
@@ -94,7 +129,7 @@ export async function POST(request: NextRequest) {
   } catch (error: any) {
     console.error('Salesforce integration error:', error.message)
     
-    if (error.message.includes('session expired') || error.message.includes('Please reconnect')) {
+    if (error.message.includes('session expired') || error.message.includes('INVALID_SESSION_ID')) {
       return NextResponse.json({
         error: 'Salesforce session expired. Please reconnect to Salesforce and try again.',
         reconnectRequired: true
@@ -104,5 +139,5 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       error: error.message || 'Failed to create Salesforce records. Please try again.'
     }, { status: 500 })
-    }
+  }
 }
