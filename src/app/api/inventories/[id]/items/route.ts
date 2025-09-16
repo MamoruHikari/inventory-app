@@ -68,7 +68,7 @@ export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  console.log('🚀 POST /api/inventories/[id]/items called')
+  console.log('POST /api/inventories/[id]/items called')
   
   try {
     const { id: inventoryId } = await params
@@ -76,14 +76,14 @@ export async function POST(
     const { data: { user } } = await supabase.auth.getUser()
     
     if (!user) {
-      console.log('❌ No user found - returning 401')
+      console.log('No user found - returning 401')
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       )
     }
 
-    console.log('👤 User found:', user.id, user.email)
+    console.log('User found:', user.id, user.email)
 
     await syncUserToDatabase(user)
 
@@ -131,7 +131,7 @@ export async function POST(
     }
 
     const body = await request.json()
-    console.log('📦 Request body:', JSON.stringify(body, null, 2))
+    console.log('Request body:', JSON.stringify(body, null, 2))
     
     if (!body.name) {
       return NextResponse.json(
@@ -164,7 +164,7 @@ export async function POST(
       .replace('{prefix}', inventory.customIdPrefix)
       .replace('{counter}', nextCounter.toString().padStart(3, '0'))
 
-    console.log('🔨 Generated customId:', customId)
+    console.log('Generated customId:', customId)
     
     const itemData = {
       name: body.name,
@@ -186,7 +186,7 @@ export async function POST(
       boolValue3: inventory.boolField3Active ? (body.boolField3 || false) : null,
     }
 
-    console.log('🔨 Creating item with data:', itemData)
+    console.log('Creating item with data:', itemData)
     
     const item = await prisma.item.create({
       data: itemData,
@@ -203,7 +203,7 @@ export async function POST(
     console.log('✅ Item created successfully:', item.id, item.customId)
     return NextResponse.json(item)
   } catch (error) {
-    console.error('❌ Error creating item:', error)
+    console.error('Error creating item:', error)
     
     const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
     

@@ -46,32 +46,32 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
-  console.log('🚀 POST /api/inventories called')
+  console.log('POST /api/inventories called')
   
   try {
     const supabase = await createClient()
-    console.log('✅ Supabase client created')
+    console.log('Supabase client created')
     
     const { data: { user } } = await supabase.auth.getUser()
-    console.log('👤 User check:', user ? `User ID: ${user.id}` : 'No user')
+    console.log('User check:', user ? `User ID: ${user.id}` : 'No user')
     
     if (!user) {
-      console.log('❌ No user found - returning 401')
+      console.log('No user found - returning 401')
       return NextResponse.json(
         { error: 'Unauthorized' },
         { status: 401 }
       )
     }
 
-    console.log('🔄 Syncing user to database...')
+    console.log('Syncing user to database...')
     await syncUserToDatabase(user)
-    console.log('✅ User synced successfully')
+    console.log('User synced successfully')
     
     const body = await request.json()
-    console.log('📦 Request body:', JSON.stringify(body, null, 2))
+    console.log('Request body:', JSON.stringify(body, null, 2))
     
     if (!body.title) {
-      console.log('❌ Missing title')
+      console.log('Missing title')
       return NextResponse.json(
         { error: 'Title is required' },
         { status: 400 }
@@ -79,7 +79,7 @@ export async function POST(request: NextRequest) {
     }
 
     if (!body.customIdPrefix) {
-      console.log('❌ Missing customIdPrefix')
+      console.log('Missing customIdPrefix')
       return NextResponse.json(
         { error: 'Custom ID prefix is required' },
         { status: 400 }
@@ -87,14 +87,14 @@ export async function POST(request: NextRequest) {
     }
 
     if (!body.customIdFormat) {
-      console.log('❌ Missing customIdFormat')
+      console.log('Missing customIdFormat')
       return NextResponse.json(
         { error: 'Custom ID format is required' },
         { status: 400 }
       )
     }
     
-    console.log('🔨 Creating inventory with data:', {
+    console.log('Creating inventory with data:', {
       title: body.title,
       description: body.description,
       categoryId: body.categoryId,
@@ -152,10 +152,10 @@ export async function POST(request: NextRequest) {
       }
     })
     
-    console.log('✅ Inventory created successfully:', inventory.id)
+    console.log('Inventory created successfully:', inventory.id)
     return NextResponse.json(inventory)
   } catch (error: unknown) {
-    console.error('❌ Error creating inventory:', error)
+    console.error('Error creating inventory:', error)
     
     const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred'
     const errorName = error instanceof Error ? error.name : 'UnknownError'

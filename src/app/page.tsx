@@ -12,7 +12,7 @@ export default async function Index() {
     <div className="min-h-screen flex flex-col">
       <header className="w-full border-b">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
-          <h1 className="text-xl font-bold">Inventory Manager</h1>
+          <h1 className="text-xl font-bold">Portal</h1>
           <AuthButton redirectTo="/" />
         </div>
       </header>
