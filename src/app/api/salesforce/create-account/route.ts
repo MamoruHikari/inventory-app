@@ -16,8 +16,8 @@ export async function POST(request: NextRequest) {
 
     console.log('User authenticated:', user.email)
 
-    const accessToken = request.cookies.get('sf_access_token')?.value
-    const instanceUrl = request.cookies.get('sf_instance_url')?.value
+    const accessToken = request.cookies.get('salesforce_access_token')?.value
+    const instanceUrl = request.cookies.get('salesforce_instance_url')?.value
 
     if (!accessToken || !instanceUrl) {
       console.log('No Salesforce connection found')
@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
     console.log('Instance URL:', instanceUrl)
 
     const body = await request.json()
-    console.log('Received form data:', JSON.stringify(body, null, 2))
+    console.log('📋 Received form data:', JSON.stringify(body, null, 2))
 
     const { 
       companyName, 
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
       }, { status: 400 })
     }
 
-    console.log('Creating Salesforce Account...')
+    console.log('🏢 Creating Salesforce Account...')
 
     const accountData = {
       Name: companyName,
@@ -104,5 +104,5 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       error: error.message || 'Failed to create Salesforce records. Please try again.'
     }, { status: 500 })
-  }
+    }
 }
