@@ -115,7 +115,7 @@ export async function POST(request: NextRequest) {
     const contactId = await salesforceClient.createContact(contactData)
     console.log('Contact created with ID:', contactId)
 
-    console.log('🎉 Salesforce integration completed successfully!')
+    console.log('Salesforce integration completed successfully!')
 
     return NextResponse.json({
       success: true,
