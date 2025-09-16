@@ -25,8 +25,12 @@ interface SalesforceContactData {
 class SalesforceClient {
   private async getStoredTokens() {
     const cookieStore = await cookies()
-    const accessToken = cookieStore.get('sf_access_token')?.value
-    const instanceUrl = cookieStore.get('sf_instance_url')?.value
+    const accessToken = cookieStore.get('salesforce_access_token')?.value
+    const instanceUrl = cookieStore.get('salesforce_instance_url')?.value
+    
+    console.log('Getting stored tokens:')
+    console.log('- Access token exists:', !!accessToken)
+    console.log('- Instance URL exists:', !!instanceUrl)
     
     return { accessToken, instanceUrl }
   }
