@@ -3,7 +3,7 @@ import { User as SupabaseUser } from '@supabase/supabase-js'
 
 export async function syncUserToDatabase(supabaseUser: SupabaseUser) {
   try {
-    console.log('🔄 Checking if user exists in database:', supabaseUser.id)
+    console.log('Checking if user exists in database:', supabaseUser.id)
     
     const existingUser = await prisma.user.findUnique({
       where: { id: supabaseUser.id }

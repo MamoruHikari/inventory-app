@@ -1,10 +1,11 @@
 import { GeistSans } from "geist/font/sans"
 import { ThemeProvider } from "next-themes"
 import "./globals.css"
+import { FloatingHelpButton } from '@/components/floating-help-button'
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000"
+  : "http://localhost:3001"
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
@@ -29,6 +30,8 @@ export default function RootLayout({
           <main className="min-h-screen">
             {children}
           </main>
+          
+          <FloatingHelpButton />
         </ThemeProvider>
       </body>
     </html>

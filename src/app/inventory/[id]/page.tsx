@@ -190,7 +190,6 @@ export default function InventoryDetailPage() {
         </div>
       </div>
 
-      {/* Tabs */}
       <Tabs defaultValue="items" className="space-y-6">
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="items" className="flex items-center gap-2">

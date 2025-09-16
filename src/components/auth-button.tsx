@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Button } from "./ui/button";
 import { createClient } from "@/lib/supabase/server";
 import { LogoutButton } from "./logout-button";
+import { User } from "lucide-react";
 
 interface AuthButtonProps {
   redirectTo?: string;
@@ -23,8 +24,12 @@ export async function AuthButton({ redirectTo }: AuthButtonProps = {}) {
     : '/auth/sign-up';
 
   return user ? (
-    <div className="flex items-center gap-4">
-      Hey, {user.email}!
+    <div className="flex items-center gap-2">
+      <Button asChild variant="outline">
+        <Link href="/profile" className="flex items-center gap-2">
+          Profile
+        </Link>
+      </Button>
       <LogoutButton />
     </div>
   ) : (
