@@ -9,16 +9,14 @@ export async function GET(request: NextRequest) {
 
     if (error) {
       console.error('Microsoft OAuth error:', error)
-      throw new Error(`Microsoft OAuth error: ${error}`)
+      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://inventory-app-7p7n.onrender.com'
+      return NextResponse.redirect(`${baseUrl}/profile?error=microsoft_error&details=${encodeURIComponent(error)}`)
     }
 
     if (!code) {
-      throw new Error('No authorization code received')
-    }
-
-    const savedState = request.cookies.get('ms_oauth_state')?.value
-    if (state !== savedState) {
-      throw new Error('Invalid state parameter')
+      console.error('No authorization code received')
+      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://inventory-app-7p7n.onrender.com'
+      return NextResponse.redirect(`${baseUrl}/profile?error=microsoft_error&details=no_code`)
     }
 
     console.log('Authorization code received:', code.substring(0, 20) + '...')
@@ -31,52 +29,48 @@ export async function GET(request: NextRequest) {
       body: new URLSearchParams({
         client_id: process.env.MICROSOFT_CLIENT_ID!,
         client_secret: process.env.MICROSOFT_CLIENT_SECRET!,
-        code,
+        code: code,
         redirect_uri: process.env.MICROSOFT_REDIRECT_URI!,
         grant_type: 'authorization_code',
-        scope: 'https://graph.microsoft.com/Files.ReadWrite'
+        scope: 'https://graph.microsoft.com/Files.ReadWrite User.Read',
       }),
     })
 
-    const tokenData = await tokenResponse.json()
-
     if (!tokenResponse.ok) {
-      console.error('❌ Token exchange failed:', tokenData)
-      throw new Error(`Token exchange failed: ${tokenData.error_description}`)
+      const errorText = await tokenResponse.text()
+      console.error('Token exchange failed:', errorText)
+      const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://inventory-app-7p7n.onrender.com'
+      return NextResponse.redirect(`${baseUrl}/profile?error=microsoft_error&details=token_exchange_failed`)
     }
 
+    const tokens = await tokenResponse.json()
     console.log('Microsoft tokens received')
 
-    const returnTo = request.cookies.get('ms_return_to')?.value || '/profile'
-    const baseUrl = `${request.nextUrl.protocol}//${request.nextUrl.host}`
-    
-    const response = NextResponse.redirect(`${baseUrl}${returnTo}?microsoft=connected`)
+    const returnTo = searchParams.get('returnTo') || '/profile'
+    const response = NextResponse.redirect(  
+      `${process.env.NEXT_PUBLIC_SITE_URL || 'https://inventory-app-7p7n.onrender.com'}${returnTo}?microsoft=connected`
+    )
 
-    response.cookies.set('ms_access_token', tokenData.access_token, {
+    response.cookies.set('ms_access_token', tokens.access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: tokenData.expires_in - 60
+      maxAge: 60 * 60
     })
 
-    if (tokenData.refresh_token) {
-      response.cookies.set('ms_refresh_token', tokenData.refresh_token, {
+    if (tokens.refresh_token) {
+      response.cookies.set('ms_refresh_token', tokens.refresh_token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
-        maxAge: 90 * 24 * 60 * 60
+        maxAge: 60 * 60 * 24 * 30
       })
     }
 
-    response.cookies.delete('ms_oauth_state')
-    response.cookies.delete('ms_return_to')
-
     return response
-
-  } catch (error: any) {
+  } catch (error) {
     console.error('Microsoft callback error:', error)
-    const returnTo = request.cookies.get('ms_return_to')?.value || '/profile'
-    const baseUrl = `${request.nextUrl.protocol}//${request.nextUrl.host}`
-    return NextResponse.redirect(`${baseUrl}${returnTo}?error=microsoft_callback_failed&message=${encodeURIComponent(error.message)}`)
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://inventory-app-7p7n.onrender.com'
+    return NextResponse.redirect(`${baseUrl}/profile?error=microsoft_error&details=callback_error`)
   }
 }
