@@ -97,14 +97,6 @@ This full-stack web application provides users with powerful inventory managemen
 - **Comment Model**: User comments on inventories with timestamps
 - **Like Model**: User likes on individual items with unique constraints
 
-### Key Features
-- **UUID primary keys** for enhanced security and scalability
-- **Cascade deletions** to maintain referential integrity
-- **Strategic indexing** on frequently queried fields (creator, public status, categories)
-- **Flexible schema** supporting dynamic field configurations
-- **Audit trails** with created/updated timestamps and version tracking
-- **User access control** ready for row-level security implementation
-
 ## Integration Workflows
 
 ### Salesforce CRM Workflow
