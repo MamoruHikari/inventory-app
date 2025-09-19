@@ -35,8 +35,7 @@ Ideal for businesses that want **seamless integration** with existing platforms 
 
 ## Key Features
 
-<details>
-<summary>Core Application</summary>
+### Core Application
 
 * **User Authentication** – Supabase-powered secure login/registration
 * **Dynamic Form Builder** – Text, number, and boolean field support
@@ -45,34 +44,25 @@ Ideal for businesses that want **seamless integration** with existing platforms 
 * **Search & Filtering** – Advanced queries across inventories and items
 * **Responsive UI** – Mobile-friendly, light/dark themes
 
-</details>
-
-<details>
-<summary>Salesforce CRM Integration</summary>
+### Salesforce CRM Integration
 
 * **OAuth Authentication** – Secure connection to Salesforce accounts
 * **Data Export** – Create Accounts and Contacts from inventory
 * **Real-time Sync** – Push updates to CRM automatically
 * **Session Management** – Automatic token refresh and error handling
 
-</details>
-
-<details>
-<summary>Microsoft Power Automate</summary>
+### Microsoft Power Automate
 
 * **OneDrive Integration** – Upload support tickets as JSON files
 * **Automated Workflows** – Trigger email and mobile notifications
 * **Help Desk Support** – Create tickets from any page
 * **Cloud Flow Processing** – Automatic file handling
 
-</details>
-
 ---
 
 ## Technical Architecture
 
-<details>
-<summary>Frontend</summary>
+### Frontend
 
 * **Next.js 15** with App Router
 * **TypeScript** for type safety
@@ -81,34 +71,25 @@ Ideal for businesses that want **seamless integration** with existing platforms 
 * **React Hook Form** for forms
 * **Lucide React** for icons
 
-</details>
-
-<details>
-<summary>Backend</summary>
+### Backend
 
 * **Next.js API Routes** for server logic
 * **Supabase** for authentication and database
 * **Prisma ORM** with PostgreSQL
 * **OAuth 2.0** for third-party integrations
 
-</details>
-
-<details>
-<summary>Integrations & APIs</summary>
+### Integrations & APIs
 
 * **Salesforce REST API** – CRM
 * **Microsoft Graph API** – OneDrive
 * **Power Automate** – Workflow automation
 * **Axios** – HTTP requests
 
-</details>
-
 ---
 
 ## Database Schema
 
-<details>
-<summary>Core Models</summary>
+### Core Models
 
 * **User** – UUID, profile info, inventories, items, comments, likes
 * **Category** – Inventory categories, indexed by name
@@ -116,14 +97,11 @@ Ideal for businesses that want **seamless integration** with existing platforms 
 * **Item** – Based on templates, custom ID, dynamic data, versioning
 * **Engagement** – Comments and likes with unique constraints
 
-</details>
-
 ---
 
 ## Integration Workflows
 
-<details>
-<summary>Salesforce CRM Workflow</summary>
+### Salesforce CRM Workflow
 
 1. Connect via "Connect to Salesforce" button
 2. OAuth login & secure token storage
@@ -131,18 +109,13 @@ Ideal for businesses that want **seamless integration** with existing platforms 
 4. API creates Salesforce Account & Contact
 5. Confirmation with record IDs
 
-</details>
-
-<details>
-<summary>Power Automate Workflow</summary>
+### Power Automate Workflow
 
 1. Click "Help" button
 2. Fill support ticket form (issue, priority)
 3. JSON ticket uploaded to OneDrive
 4. Power Automate flow triggered
 5. Admin email and mobile notifications sent
-
-</details>
 
 ---
 
@@ -158,23 +131,17 @@ Ideal for businesses that want **seamless integration** with existing platforms 
 
 ## API Endpoints
 
-<details>
-<summary>Authentication</summary>
+### Authentication
 
 * `GET /api/auth/salesforce` – Initiate Salesforce OAuth
 * `GET /api/auth/salesforce/callback` – OAuth callback
 * `GET /api/auth/microsoft` – Initiate Microsoft OAuth
 * `GET /api/auth/microsoft/callback` – OAuth callback
 
-</details>
-
-<details>
-<summary>Salesforce & Power Automate</summary>
+### Salesforce & Power Automate
 
 * `POST /api/salesforce/create-account` – Export inventory to Salesforce
 * `POST /api/power-automate/upload-ticket` – Upload support tickets
-
-</details>
 
 ---
 
