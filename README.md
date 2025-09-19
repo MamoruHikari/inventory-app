@@ -47,7 +47,7 @@ Ideal for businesses that want **seamless integration** with existing platforms 
 ### Salesforce CRM Integration
 
 * **OAuth Authentication** – Secure connection to Salesforce accounts
-* **Data Export** – Create Accounts and Contacts from inventory
+* **Data Export** – Create Accounts and Contacts from profile
 * **Real-time Sync** – Push updates to CRM automatically
 * **Session Management** – Automatic token refresh and error handling
 
