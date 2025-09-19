@@ -41,7 +41,6 @@ Ideal for businesses that want **seamless integration** with existing platforms 
 * **Dynamic Form Builder** – Text, number, and boolean field support
 * **Inventory Management** – CRUD operations on items and templates
 * **Template System** – Reusable inventory templates
-* **Search & Filtering** – Advanced queries across inventories and items
 * **Responsive UI** – Mobile-friendly, light/dark themes
 
 ### Salesforce CRM Integration
