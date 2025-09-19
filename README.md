@@ -1,6 +1,6 @@
 # Inventory Management System
 
-A comprehensive inventory management application built with **Next.js 14**, **TypeScript**, **Supabase**, and **Prisma ORM**, featuring advanced integrations with **Salesforce CRM** and **Microsoft Power Automate**.
+A comprehensive inventory management application built with **Next.js 15**, **TypeScript**, **Supabase**, and **Prisma ORM**, featuring advanced integrations with **Salesforce CRM** and **Microsoft Power Automate**.
 
 ## Overview
 
@@ -33,7 +33,7 @@ This full-stack web application provides users with powerful inventory managemen
 ## Technical Architecture
 
 ### Frontend
-- **Next.js 14** with App Router
+- **Next.js 15** with App Router
 - **TypeScript** for type safety
 - **Tailwind CSS** for styling
 - **Shadcn/ui** component library
