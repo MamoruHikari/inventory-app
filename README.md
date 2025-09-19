@@ -1,128 +1,196 @@
-# Inventory Management System
+# Inventory Management System ![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js) ![TypeScript](https://img.shields.io/badge/TypeScript-4.9-blue?logo=typescript) ![Supabase](https://img.shields.io/badge/Supabase-1.0-00bfff?logo=supabase) ![Prisma](https://img.shields.io/badge/Prisma-4.15-blue?logo=prisma)
 
-A comprehensive inventory management application built with **Next.js 15**, **TypeScript**, **Supabase**, and **Prisma ORM**, featuring advanced integrations with **Salesforce CRM** and **Microsoft Power Automate**.
+A full-featured **inventory management application** with **Salesforce CRM** and **Microsoft Power Automate** integrations, built with modern **Next.js 15**, **TypeScript**, **Supabase**, and **Prisma ORM**.
+
+[Live Demo](https://inventory-app-7p7n.onrender.com)
+
+---
+
+## Table of Contents
+
+* [Overview](#overview)
+* [Key Features](#key-features)
+* [Technical Architecture](#technical-architecture)
+* [Database Schema](#database-schema)
+* [Integration Workflows](#integration-workflows)
+* [Security](#security)
+* [API Endpoints](#api-endpoints)
+* [Deployment](#deployment)
+* [Business Value](#business-value)
+
+---
 
 ## Overview
 
-This full-stack web application provides users with powerful inventory management capabilities while offering seamless integration with popular business tools. The system supports user authentication, dynamic form creation, inventory tracking, and automated workflows.
+This system offers **end-to-end inventory management**:
+
+* User authentication and role-based access
+* Dynamic form creation for inventory templates
+* Real-time inventory tracking
+* Automated workflows with CRM and help desk tools
+
+Ideal for businesses that want **seamless integration** with existing platforms while maintaining type-safe, scalable development.
+
+---
 
 ## Key Features
 
-### 🏠 Core Application
-- **User Authentication** - Secure login/registration with Supabase Auth
-- **Dynamic Form Builder** - Create custom inventory forms with various field types
-- **Inventory Management** - Add, edit, delete, and track inventory items
-- **Template System** - Reusable form templates for different inventory categories  
-- **Search & Filtering** - Advanced search capabilities across inventory data
-- **Responsive Design** - Mobile-friendly interface with dark/light theme support
+<details>
+<summary>Core Application</summary>
 
-### 🔗 Business Integrations
+* **User Authentication** – Supabase-powered secure login/registration
+* **Dynamic Form Builder** – Text, number, and boolean field support
+* **Inventory Management** – CRUD operations on items and templates
+* **Template System** – Reusable inventory templates
+* **Search & Filtering** – Advanced queries across inventories and items
+* **Responsive UI** – Mobile-friendly, light/dark themes
 
-#### Salesforce CRM Integration
-- **OAuth Authentication** - Secure connection to user's Salesforce org
-- **Account & Contact Creation** - Export inventory data to Salesforce
-- **Real-time Data Sync** - Push inventory information to CRM
+</details>
 
-#### Microsoft Power Automate Integration  
-- **OneDrive Integration** - Upload support tickets as JSON files
-- **Automated Workflows** - Trigger email notifications and mobile alerts
-- **Help Desk System** - Create support tickets from any page
+<details>
+<summary>Salesforce CRM Integration</summary>
+
+* **OAuth Authentication** – Secure connection to Salesforce accounts
+* **Data Export** – Create Accounts and Contacts from inventory
+* **Real-time Sync** – Push updates to CRM automatically
+* **Session Management** – Automatic token refresh and error handling
+
+</details>
+
+<details>
+<summary>Microsoft Power Automate</summary>
+
+* **OneDrive Integration** – Upload support tickets as JSON files
+* **Automated Workflows** – Trigger email and mobile notifications
+* **Help Desk Support** – Create tickets from any page
+* **Cloud Flow Processing** – Automatic file handling
+
+</details>
+
+---
 
 ## Technical Architecture
 
-### Frontend Stack
-- **Next.js 15** with App Router and TypeScript
-- **Tailwind CSS** + **Shadcn/ui** component library
-- **React Hook Form** for form handling
-- **Lucide React** for icons
+<details>
+<summary>Frontend</summary>
 
-### Backend & Database
-- **Next.js API Routes** for server-side logic
-- **Supabase** for database and authentication
-- **Prisma ORM** for type-safe database operations
-- **PostgreSQL** with real-time subscriptions
-- **OAuth 2.0** for third-party integrations
+* **Next.js 15** with App Router
+* **TypeScript** for type safety
+* **Tailwind CSS** for styling
+* **Shadcn/ui** component library
+* **React Hook Form** for forms
+* **Lucide React** for icons
+
+</details>
+
+<details>
+<summary>Backend</summary>
+
+* **Next.js API Routes** for server logic
+* **Supabase** for authentication and database
+* **Prisma ORM** with PostgreSQL
+* **OAuth 2.0** for third-party integrations
+
+</details>
+
+<details>
+<summary>Integrations & APIs</summary>
+
+* **Salesforce REST API** – CRM
+* **Microsoft Graph API** – OneDrive
+* **Power Automate** – Workflow automation
+* **Axios** – HTTP requests
+
+</details>
+
+---
 
 ## Database Schema
 
-### Core Models
+<details>
+<summary>Core Models</summary>
 
-#### User Model
-- UUID-based primary key with Supabase Auth integration
-- Profile data (name, avatar, role) with default "user" role
-- One-to-many relationships with inventories, items, comments, and likes
+* **User** – UUID, profile info, inventories, items, comments, likes
+* **Category** – Inventory categories, indexed by name
+* **Inventory (Template)** – Title, description, image, tags, dynamic fields, versioning
+* **Item** – Based on templates, custom ID, dynamic data, versioning
+* **Engagement** – Comments and likes with unique constraints
 
-#### Category Model
-- Predefined categories for inventory classification with optimized name-based lookups
+</details>
 
-#### Inventory Model (Templates)
-- Core fields: title, description, image, tags, and public visibility
-- Custom ID system: configurable prefix, format, and counter for item numbering
-- Dynamic fields: up to 3 configurable fields each for strings, numbers, and booleans
-- Built-in version control and relationships with users, categories, items, and comments
-
-#### Item Model
-- Actual inventory entries based on templates
-- Unique custom ID per inventory with dynamic data storage
-- Individual version control and user relationships
-
-#### Engagement Models
-- **Comments**: User comments on inventories with timestamps
-- **Likes**: User likes on items with unique constraints
+---
 
 ## Integration Workflows
 
-### Salesforce CRM Workflow
-1. OAuth authentication with secure token storage in httpOnly cookies
-2. User fills export form with company/contact details
-3. API creates Account and Contact records in Salesforce
-4. Success confirmation with Salesforce record IDs
+<details>
+<summary>Salesforce CRM Workflow</summary>
 
-### Power Automate Workflow
-1. Support ticket form collects issue details from any page
-2. JSON file generated and uploaded to OneDrive via Microsoft Graph API
-3. Power Automate flow triggers email and mobile notifications
+1. Connect via "Connect to Salesforce" button
+2. OAuth login & secure token storage
+3. Fill export form
+4. API creates Salesforce Account & Contact
+5. Confirmation with record IDs
 
-## Security Features
+</details>
 
-- **Authentication Required** - All routes protected with Supabase Auth
-- **Type-safe Operations** - Prisma prevents SQL injection attacks
-- **Secure Token Storage** - HTTPS cookies with automatic OAuth refresh
-- **Input Validation** - Server-side data validation and sanitization
-- **Environment Security** - Sensitive data stored securely with CORS protection
+<details>
+<summary>Power Automate Workflow</summary>
+
+1. Click "Help" button
+2. Fill support ticket form (issue, priority)
+3. JSON ticket uploaded to OneDrive
+4. Power Automate flow triggered
+5. Admin email and mobile notifications sent
+
+</details>
+
+---
+
+## Security
+
+* Supabase Auth protects routes
+* Prisma prevents SQL injection via type-safe queries
+* HTTPS cookies & secure environment variables
+* CORS configured
+* OAuth token refresh & server-side validation
+
+---
 
 ## API Endpoints
 
-### Authentication
-- `GET /api/auth/salesforce` - Initiate Salesforce OAuth
-- `GET /api/auth/salesforce/callback` - Handle OAuth callback
-- `GET /api/auth/microsoft` - Initiate Microsoft OAuth  
-- `GET /api/auth/microsoft/callback` - Handle OAuth callback
+<details>
+<summary>Authentication</summary>
 
-### Integrations
-- `POST /api/salesforce/create-account` - Export data to Salesforce CRM
-- `POST /api/power-automate/upload-ticket` - Upload support tickets to OneDrive
+* `GET /api/auth/salesforce` – Initiate Salesforce OAuth
+* `GET /api/auth/salesforce/callback` – OAuth callback
+* `GET /api/auth/microsoft` – Initiate Microsoft OAuth
+* `GET /api/auth/microsoft/callback` – OAuth callback
+
+</details>
+
+<details>
+<summary>Salesforce & Power Automate</summary>
+
+* `POST /api/salesforce/create-account` – Export inventory to Salesforce
+* `POST /api/power-automate/upload-ticket` – Upload support tickets
+
+</details>
+
+---
 
 ## Deployment
 
-**Production URL**: https://inventory-app-7p7n.onrender.com
+* **Platform:** Render with GitHub CI/CD
+* **Database:** PostgreSQL with Prisma migrations and connection pooling
+* **Third-Party Apps:** Salesforce Connected App, Microsoft App Registration, Power Automate flows
+* **Production URL:** [https://inventory-app-7p7n.onrender.com](https://inventory-app-7p7n.onrender.com)
 
-Deployed on **Render** with:
-- Automatic GitHub deployments
-- Production PostgreSQL with Prisma connection pooling
-- Automatic database migrations
-- Configured Salesforce Connected App and Microsoft App Registration
-- Power Automate flows for file monitoring and notifications
+---
 
 ## Business Value
 
-This application demonstrates enterprise-level integration patterns for modern business environments:
-
-- **CRM Integration** - Seamless data export to sales teams
-- **Workflow Automation** - Reduced manual processes with automated notifications  
-- **Multi-platform Support** - Integration with popular business tools
-- **Type-Safe Development** - Reliable database operations with Prisma ORM
-- **Scalable Architecture** - Built to handle growing data and user loads
-- **Enterprise Security** - Production-grade security and data protection
-
-Perfect for businesses looking to streamline inventory management while maintaining integration with existing business tools and workflows.
+* CRM integration for sales teams
+* Workflow automation to reduce manual work
+* Multi-platform connectivity
+* Type-safe, scalable architecture
+* Enterprise-grade security
