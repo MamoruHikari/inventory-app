@@ -1,4 +1,4 @@
-# Inventory Management System ![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js) ![TypeScript](https://img.shields.io/badge/TypeScript-4.9-blue?logo=typescript) ![Supabase](https://img.shields.io/badge/Supabase-1.0-00bfff?logo=supabase) ![Prisma](https://img.shields.io/badge/Prisma-4.15-blue?logo=prisma)
+# Inventory Management System
 
 A full-featured **inventory management application** with **Salesforce CRM** and **Microsoft Power Automate** integrations, built with modern **Next.js 15**, **TypeScript**, **Supabase**, and **Prisma ORM**.
 
